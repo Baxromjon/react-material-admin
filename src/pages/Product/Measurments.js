@@ -67,14 +67,16 @@ const Measurements = () => {
                 <ModalHeader>O`lchov qo`shish</ModalHeader>
                 <ModalBody>
                     <form action="#" onSubmit={(e) => saveMeasurement(e)}>
-                        <TextField id="standard-basic" label="Nomini kiriting" variant="standard" name="name" fullWidth="100px"/>
+                        <TextField id="standard-basic" label="Nomini kiriting" variant="standard" name="name"
+                                   fullWidth="100px"/>
                     </form>
                 </ModalBody>
                 <ModalFooter>
-                    <button className="btn btn-danger"  onClick={handleShow}
-                    >Bekor qilish
-                    </button>
-                    <button className="btn btn-success" type="submit" >Saqlash</button>
+                    <div>
+                        <button className="btn btn-danger" style={{backgroundColor:"#49be25"}} onClick={handleShow}>Bekor qilish</button>
+                        <button className="btn btn-success" type="submit" style={{backgroundColor:"#EC164B"}}>Saqlash</button>
+                    </div>
+
                 </ModalFooter>
             </Modal>
 

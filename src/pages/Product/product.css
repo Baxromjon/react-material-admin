@@ -18,9 +18,9 @@
     padding: 1px;
 }
 
-.card-body :hover{
-    transform: rotateY(180deg);
-}
+/*.card-body :hover{*/
+/*    transform: rotateY(180deg);*/
+/*}*/
 .flip-card-back {
     background-color: dodgerblue;
     color: white;

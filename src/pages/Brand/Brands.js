@@ -26,7 +26,7 @@ const Brands = () => {
             <div className="row">
                 {brands?.map((item, index) =>
                     <div className="card col-md-3 m-2" style={{width: "220px", cursor: "pointer"}}>
-                        <img src={'http://localhost:8080/api/photo/get/' + item.attachment.id} alt="Avatar"
+                        <img src={'http://localhost:8090/api/photo/get/' + item.attachment.id} alt="Avatar"
                              style={{width: "100%", margin: "5px 0 0 0"}}/>
                         <div className="container">
                             <h4 className="text-center"><b>{item.name}</b></h4>

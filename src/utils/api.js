@@ -7,7 +7,7 @@ export const api={
 
     //PRODUCTS
     getAllProducts:'/product/getAllProduct',
-
+    addProduct: '/product/add',
 
     //ATTACHMENTS
     getById:'/photo/get/',
@@ -22,6 +22,15 @@ export const api={
     //BRANDS
     getAllBrands:'/brands/getAll',
 
+    //DETAILS
+    getDetails: '/detail/get_all_details',
+
+    //ATTACHMENT
+    addFile: '/photo/multi-upload',
+
+
+    //MONTH
+    getAllMonth: '/month/get_all_month'
 
 
 }
