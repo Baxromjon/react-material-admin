@@ -30,7 +30,8 @@ export const api={
 
 
     //MONTH
-    getAllMonth: '/month/get_all_month'
+    getAllMonth: '/month/get_all_month',
+    saveMonthlyPrice:'/monthly_price/add',
 
 
 }
