@@ -24,6 +24,9 @@ export const api={
 
     //BRANDS
     getAllBrands:'/brands/getAll',
+    addBrand: '/brands/add_brand',
+    editBrand: '/brands/edit_brand/',
+    deleteBrand:'/brands/delete_brand/',
 
     //DETAILS
     getDetails: '/detail/get_all_details',
