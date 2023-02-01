@@ -19,6 +19,7 @@ export const api={
 
     //CATEGORIES
     getAllCategories:'/category/get_all_category',
+    addCategory: '/category/add_category',
 
     //BRANDS
     getAllBrands:'/brands/getAll',
@@ -28,6 +29,7 @@ export const api={
 
     //ATTACHMENT
     addFile: '/photo/multi-upload',
+    addOneFile: '/photo/add_photo',
 
 
     //MONTH

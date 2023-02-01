@@ -23,6 +23,11 @@ const Products = () => {
     const [init, setInit] = useState(1);
     const [month, setMonth] = useState([]);
 
+    // window.setTimeout(function () {
+    //     if (showEditModal===false) {
+    //         window.location.reload();
+    //     }
+    // }, 10000)
     useEffect(() => {
         getAllProducts()
         getAllMeasurements()
@@ -171,6 +176,7 @@ const Products = () => {
     const hideEditModal = (item) => {
         setCurrentProduct(item)
         setEditShowModal(!showEditModal)
+        getAllProducts()
     }
 
 
@@ -187,7 +193,8 @@ const Products = () => {
                             <div className="card text-black">
                                 <div className="card-body">
                                     <img src={'http://localhost:8090/api/photo/get/' + item.mainPhoto.id}
-                                         className="card-img-top" alt="image" style={{width: "220px", height:"300px"}}/>
+                                         className="card-img-top" alt="image"
+                                         style={{width: "220px", height: "300px"}}/>
                                     {/*<div className="flip-card-back">*/}
                                     <div className="text-center">
                                         <h6 className="card-title">{item.name}</h6>
@@ -338,15 +345,15 @@ const Products = () => {
                     currentProduct={currentProduct}
                 />}
             {showEditModal &&
-            <EditProduct
-                toggle={(x)=>hideEditModal(x)}
-                // editMonthPrice={editMonthPrice}
-                currentProduct={currentProduct}
-                categories={categories}
-                measurements={measurements}
-                details={details}
-                brands={brands}
-            />}
+                <EditProduct
+                    toggle={(x) => hideEditModal(x)}
+                    currentFile={currentProduct.mainPhoto.id}
+                    currentProduct={currentProduct}
+                    categories={categories}
+                    measurements={measurements}
+                    details={details}
+                    brands={brands}
+                />}
         </div>
 
     );

@@ -16,10 +16,12 @@ function EditProduct(props) {
         measurements,
         details,
         brands,
+        currentFile
     } = props
     const {register, handleSubmit, watch, formState: {errors}} = useForm();
     const [isOpen, setIsOpen] = useState(true);
-    const [currentFile, setCurrentFile] = useState([]);
+    const [currentFile1, setCurrentFile1] = useState(currentFile);
+    console.log(currentFile1)
     useEffect(() => {
 
     }, [])
@@ -62,8 +64,7 @@ function EditProduct(props) {
             method: 'POST',
             data: formData
         }).then(res => {
-            console.log(res.data)
-            setCurrentFile(res.data)
+            setCurrentFile1(res.data)
         }).catch(err => {
         })
     }
@@ -168,7 +169,7 @@ function EditProduct(props) {
                                 <div className="form-group">
                                     <label>Upload file</label><br/>
                                     {<img
-                                        src={'http://192.168.0.218:8090/api/photo/get/' + currentFile ? currentFile[0] : currentProduct.mainPhoto.id}
+                                        src={'http://192.168.0.218:8090/api/photo/get/' + currentFile1}
                                         width="300" height="220"/>}
                                     <input className="mt-3" {...register("photoId", {required: true})} type="file"
                                            multiple
