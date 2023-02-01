@@ -10,13 +10,17 @@ function AddMonthlyPrice(props) {
     const {
         toggle,
         saveMonthPrice,
-        isEdit
+        isEdit,
+        currentProduct
     } = props
     const [isOpen, setIsOpen] = useState(true);
     const {register, handleSubmit, watch, formState: {errors}} = useForm();
     const [month, setMonth] = useState([]);
+    const [monthlyPrice, setMonthlyPrice]=useState([]);
+
     useEffect(() => {
         getMonth()
+        getAllProductByMonth()
     }, [])
     const getMonth = () => {
         request({
@@ -27,12 +31,34 @@ function AddMonthlyPrice(props) {
         }).catch(err => {
         })
     }
+    const getAllProductByMonth=()=>{
+        request({
+            url:api.getProductByMonthly+currentProduct.id,
+            method:'GET'
+        }).then(res=>{
+            setMonthlyPrice(res.data.data)
+        }).catch(err=>{
+
+        })
+    }
 
     return (
         <div>
             <Modal isOpen={isOpen} centered size="lg" style={{maxWidth: "700px", width: "80%"}}>
                 <ModalHeader>Mahsulotning oylik narxlari</ModalHeader>
                 <ModalBody>
+                    <table className="table table-hover">
+                        <tbody>
+                        {monthlyPrice?.map((item, index)=>
+                        <tr key={index}>
+                            <td>{index+1}</td>
+                            <td>{item.productName}</td>
+                            <td>{item.month}</td>
+                            <td>{item.productPrice}</td>
+                        </tr>
+                        )}
+                        </tbody>
+                    </table>
                     <form onSubmit={handleSubmit(saveMonthPrice)}>
                         <div className="row">
                             <div className="form-group col-md-6">
@@ -50,8 +76,8 @@ function AddMonthlyPrice(props) {
                             </div>
                         </div>
                         <div>
-                            <button className="btn btn-success" type='submit'>Saqlash</button>
-                            <button className="btn btn-danger" onClick={() => setIsOpen(false)}>Bekor qilish</button>
+                            <button className="btn btn-success m-1" type='submit'>Saqlash</button>
+                            <button className="btn btn-danger m-1" onClick={toggle}>Bekor qilish</button>
                         </div>
                     </form>
 

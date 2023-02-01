@@ -5,6 +5,7 @@ import {api} from "../../utils/api";
 import {Modal, ModalHeader, ModalFooter, ModalBody} from 'reactstrap';
 import {useForm} from "react-hook-form";
 import AddMonthlyPrice from "./AddMonthlyPrice";
+import EditProduct from "./EditProduct";
 
 
 const Products = () => {
@@ -18,6 +19,7 @@ const Products = () => {
     const [brands, setBrands] = useState([]);
     const [currentFile, setCurrentFile] = useState([]);
     const [showMonthModal, setShowModalMonth] = useState(false);
+    const [showEditModal, setEditShowModal] = useState(false);
     const [init, setInit] = useState(1);
     const [month, setMonth] = useState([]);
 
@@ -142,30 +144,35 @@ const Products = () => {
         })
     }
     const saveMonthPrice = (e, v) => {
-        let DTO={
-            productId:'',
-            monthId:'',
-            price:''
+        let DTO = {
+            productId: '',
+            monthId: '',
+            price: ''
         }
-        DTO.price=e.price;
-        DTO.monthId=e.monthId;
-        DTO.productId=currentProduct;
-        console.log(DTO)
-        console.log(currentProduct)
+        DTO.price = e.price;
+        DTO.monthId = e.monthId;
+        DTO.productId = currentProduct.id;
         request({
-            url:api.saveMonthlyPrice,
-            method:'POST',
-            data:DTO
-        }).then(res=>{
+            url: api.saveMonthlyPrice,
+            method: 'POST',
+            data: DTO
+        }).then(res => {
             getAllProducts()
-            hideModalMonth()
-        }).catch(err=>{})
+            setShowModalMonth(false)
+        }).catch(err => {
+            alert(err.response.data.message)
+        })
 
     }
     const hideModalMonth = (item) => {
-        setCurrentProduct(item.id)
+        setCurrentProduct(item)
         setShowModalMonth(!showMonthModal)
     }
+    const hideEditModal = (item) => {
+        setCurrentProduct(item)
+        setEditShowModal(!showEditModal)
+    }
+
 
     return (
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -180,10 +187,10 @@ const Products = () => {
                             <div className="card text-black">
                                 <div className="card-body">
                                     <img src={'http://localhost:8090/api/photo/get/' + item.mainPhoto.id}
-                                         className="card-img-top" alt="image" style={{width: "100%"}}/>
+                                         className="card-img-top" alt="image" style={{width: "220px", height:"300px"}}/>
                                     {/*<div className="flip-card-back">*/}
                                     <div className="text-center">
-                                        <h5 className="card-title">{item.name}</h5>
+                                        <h6 className="card-title">{item.name}</h6>
                                         <p className="text-muted mb-4">{item.brand.name}</p>
                                     </div>
                                     <div>
@@ -203,9 +210,11 @@ const Products = () => {
                                     {/*</div>*/}
 
                                     <div className="row">
-                                        <button className="btn btn-info m-1" onClick={()=>hideModalMonth(item)}>Bo`lib to`lash
+                                        <button className="btn btn-info m-1" onClick={() => hideModalMonth(item)}>Bo`lib
+                                            to`lash
                                         </button>
-                                        <button className="btn btn-info m-1" style={{marginTop: "2px"}}>Taxrirlash
+                                        <button className="btn btn-info m-1" style={{marginTop: "2px"}}
+                                                onClick={() => hideEditModal(item)}>Taxrirlash
                                         </button>
                                     </div>
                                 </div>
@@ -322,10 +331,21 @@ const Products = () => {
                     </form>
                 </ModalBody>
             </Modal>
-            {showMonthModal&&
-            <AddMonthlyPrice
-            toggle={(x)=>hideModalMonth(x)}
-            saveMonthPrice={saveMonthPrice}
+            {showMonthModal &&
+                <AddMonthlyPrice
+                    toggle={(x) => hideModalMonth(x)}
+                    saveMonthPrice={saveMonthPrice}
+                    currentProduct={currentProduct}
+                />}
+            {showEditModal &&
+            <EditProduct
+                toggle={(x)=>hideEditModal(x)}
+                // editMonthPrice={editMonthPrice}
+                currentProduct={currentProduct}
+                categories={categories}
+                measurements={measurements}
+                details={details}
+                brands={brands}
             />}
         </div>
 
