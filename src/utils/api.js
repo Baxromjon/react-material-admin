@@ -20,6 +20,7 @@ export const api={
     //CATEGORIES
     getAllCategories:'/category/get_all_category',
     addCategory: '/category/add_category',
+    deleteCategory:'/category/delete_category/',
 
     //BRANDS
     getAllBrands:'/brands/getAll',

@@ -10,15 +10,15 @@ function EditCategory(props) {
         toggle,
         currentCategory,
         categories,
-        currentFile
+        currentFile,
+        editCategory
     } = props
     const [isOpen, setIsOpen] = useState(true);
     const {register, handleSubmit, watch, formState: {errors}} = useForm();
     const [currentFile1, setCurrentFile1] = useState(currentFile);
-    console.log(currentFile1)
-    const editCategory = (e, v) => {
-
-    }
+    // const editCategory = (e, v) => {
+    //
+    // }
     const uploadFile = (file) => {
         let formData = new FormData();
         formData.append("file", file.target.files[0])
@@ -28,6 +28,15 @@ function EditCategory(props) {
             data: formData
         }).then(res => {
             setCurrentFile1(res.data)
+        }).catch(err => {
+        })
+    }
+    const deleteModal = () => {
+        request({
+            url: api.deleteCategory + currentCategory.id,
+            method: 'DELETE'
+        }).then(res => {
+            setIsOpen(false)
         }).catch(err => {
         })
     }
@@ -73,8 +82,9 @@ function EditCategory(props) {
                             </div>
                         </div>
                         <div>
-                            <button className="btn" type="submit"><i className="fa fa-plus-circle"></i></button>
-                            <button className="btn" onClick={toggle}><i className="fa fa-close"></i></button>
+                            <button className="btn fa fa-plus-circle" type="submit"></button>
+                            <button className="btn fa fa-close" onClick={toggle}></button>
+                            <button className="btn fa fa-minus-circle" onClick={deleteModal}></button>
                         </div>
                     </form>
                 </ModalBody>

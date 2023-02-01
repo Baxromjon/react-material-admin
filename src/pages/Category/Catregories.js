@@ -67,6 +67,9 @@ const Categories = () => {
         setCurrentCategory(item)
         setEditModal(!editModal)
     }
+    const editCategory=()=>{
+        console.log('edit category')
+    }
 
     return (
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -136,6 +139,7 @@ const Categories = () => {
                 currentCategory={currentCategory}
                 currentFile={currentCategory.attachment.id}
                 categories={categories}
+                editCategory={editCategory}
                 />
         }
         </div>
