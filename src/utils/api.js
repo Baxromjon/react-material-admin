@@ -39,6 +39,13 @@ export const api={
 
     //MONTH
     getAllMonth: '/month/get_all_month',
+    deleteMonth: '/month/delete_month/',
+    addMonth: '/month/add',
+    editMonth:'/month/edit/',
+
+
+
+
     saveMonthlyPrice:'/monthly_price/add',
     editMonthlyPrice:'/monthly_price/edit',
     getProductByMonthly:'/monthly_price/get_all_product_by_monthly_price/',
