@@ -10,6 +10,7 @@ const Brands = () => {
     const {register, handleSubmit, watch, formState: {errors}} = useForm();
     const [currentFile, setCurrentFile] = useState('');
     const [currentBrand, setCurrentBrand] = useState('');
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
         getAllBrands()
@@ -62,12 +63,17 @@ const Brands = () => {
         setCurrentFile(item.attachment.id)
     }
     const deleteModal = () => {
+        setShowDeleteModal(!showDeleteModal)
+        setShowAddModal(false)
+    }
+    const deleteBrand = () => {
         request({
             url: api.deleteBrand + currentBrand.id,
             method: 'DELETE'
         }).then(res => {
-            setShowAddModal(!showAddModel)
             getAllBrands()
+            hideAddModal()
+            deleteModal()
         }).catch(err => {
 
         })
@@ -76,7 +82,7 @@ const Brands = () => {
     return (
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
 
-            <button className="btn btn-success" onClick={hideAddModal}>qo`shish</button>
+            <button className="btn fa fa-plus-circle fa-3x" onClick={hideAddModal}></button>
             <br/>
             <div className="row">
                 {brands?.map((item, index) =>
@@ -111,14 +117,21 @@ const Brands = () => {
                             </div>
                         </div>
                         <div>
-                            <button className="btn fa fa-plus-circle" type="submit"></button>
-                            <button className="btn fa fa-close"
+                            <button className="btn fa fa-plus-circle fa-2x" type="submit"></button>
+                            <button className="btn fa fa-close fa-2x"
                                     onClick={currentBrand ? hideEditModal : hideAddModal}></button>
-                            <button className="btn fa fa-minus-circle" onClick={deleteModal}></button>
+                            <button className="btn fa fa-trash-o fa-2x" onClick={deleteModal}></button>
                         </div>
                     </form>
                 </ModalBody>
-
+            </Modal>
+            <Modal isOpen={showDeleteModal} centered>
+                <ModalHeader
+                    style={{textAlign: "center"}}>{currentBrand.name + "  brandini o`chirishni xohlaysizmi?"}</ModalHeader>
+                <ModalBody>
+                    <button className="btn btn-danger m-1" onClick={deleteBrand}>O`chirish</button>
+                    <button className="btn btn-success m-1" onClick={deleteModal}>Bekor qilish</button>
+                </ModalBody>
             </Modal>
         </div>
     );

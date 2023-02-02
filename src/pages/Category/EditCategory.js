@@ -82,9 +82,9 @@ function EditCategory(props) {
                             </div>
                         </div>
                         <div>
-                            <button className="btn fa fa-plus-circle" type="submit"></button>
-                            <button className="btn fa fa-close" onClick={toggle}></button>
-                            <button className="btn fa fa-minus-circle" onClick={deleteModal}></button>
+                            <button className="btn fa fa-plus-circle fa-2x" type="submit"></button>
+                            <button className="btn fa fa-close fa-2x" onClick={toggle}></button>
+                            <button className="btn fa fa-trash-o fa-2x" onClick={deleteModal}></button>
                         </div>
                     </form>
                 </ModalBody>

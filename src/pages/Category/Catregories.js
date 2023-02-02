@@ -1,11 +1,10 @@
-import React, {Component, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 // import "./categories.css"
 import {api} from "../../utils/api";
 import request from "../../utils/request";
 import {useForm} from "react-hook-form";
 import {Modal, ModalHeader, ModalFooter, ModalBody} from 'reactstrap';
 import EditCategory from "./EditCategory";
-import {CURRENT_IMAGE} from "../../utils/constant";
 
 
 const Categories = () => {
@@ -73,7 +72,7 @@ const Categories = () => {
 
     return (
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-            <button className="btn btn-info" onClick={hideModal}>qo`shish</button>
+            <button className="btn fa fa-plus-circle fa-3x" onClick={hideModal}></button>
             <br/>
             <div className="row">
                 {categories?.map((item, index) =>
@@ -127,8 +126,8 @@ const Categories = () => {
                             </div>
                         </div>
                         <div>
-                            <button className="btn" type="submit"><i className="fa fa-plus-circle"></i></button>
-                            <button className="btn" onClick={hideModal}><i className="fa fa-close"></i></button>
+                            <button className="btn" type="submit"><i className="fa fa-plus-circle fa-2x"></i></button>
+                            <button className="btn" onClick={hideModal}><i className="fa fa-close fa-2x"></i></button>
                         </div>
                     </form>
                 </ModalBody>

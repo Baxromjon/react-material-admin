@@ -22,7 +22,7 @@ const Products = () => {
     const [showEditModal, setEditShowModal] = useState(false);
     const [init, setInit] = useState(1);
     const [month, setMonth] = useState([]);
-
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     // window.setTimeout(function () {
     //     if (showEditModal===false) {
     //         window.location.reload();
@@ -179,12 +179,26 @@ const Products = () => {
         getAllProducts()
     }
 
+    const deleteModal = (item) => {
+        setCurrentProduct(item)
+        setShowDeleteModal(!showDeleteModal)
+    }
+    const deleteProduct = () => {
+        request({
+            url: api.deleteProduct + currentProduct.id,
+            method:'DELETE'
+        }).then(res=>{
+            getAllProducts()
+            deleteModal()
+        }).catch(err=>{})
+    }
+
 
     return (
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
             <br/>
             <div style={{width: "100px"}}>
-                <button className="btn btn-success" onClick={hideModal}>qo`shish</button>
+                <button className="btn fa fa-plus-circle fa-3x" onClick={hideModal}></button>
             </div>
             <div className="container py-5">
                 <div className="row justify-content-left">
@@ -220,9 +234,11 @@ const Products = () => {
                                         <button className="btn btn-info m-1" onClick={() => hideModalMonth(item)}>Bo`lib
                                             to`lash
                                         </button>
-                                        <button className="btn btn-info m-1" style={{marginTop: "2px"}}
-                                                onClick={() => hideEditModal(item)}>Taxrirlash
+                                        <button className="btn fa fa-edit fa-2x" style={{marginTop: "2px"}}
+                                                onClick={() => hideEditModal(item)}>
                                         </button>
+                                        <button className="btn fa fa-trash-o fa-2x"
+                                                onClick={() => deleteModal(item)}></button>
                                     </div>
                                 </div>
                             </div>
@@ -336,6 +352,14 @@ const Products = () => {
                         </div>
 
                     </form>
+                </ModalBody>
+            </Modal>
+            <Modal isOpen={showDeleteModal} centered>
+                <ModalHeader
+                    style={{textAlign: "center"}}>{currentProduct.name + "ni o'chirishni xohlaysizmi"}</ModalHeader>
+                <ModalBody>
+                    <button className="btn btn-danger m-1" onClick={deleteProduct}>O`chirish</button>
+                    <button className="btn btn-success m-1" onClick={deleteModal}>Bekor qilish</button>
                 </ModalBody>
             </Modal>
             {showMonthModal &&

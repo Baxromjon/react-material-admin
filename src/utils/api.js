@@ -9,6 +9,7 @@ export const api={
     getAllProducts:'/product/getAllProduct',
     addProduct: '/product/add',
     editProduct:'/product/edit/',
+    deleteProduct: '/product/delete_product/',
 
     //ATTACHMENTS
     getById:'/photo/get/',
