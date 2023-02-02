@@ -84,9 +84,9 @@ const Brands = () => {
 
             <button className="btn fa fa-plus-circle fa-3x" onClick={hideAddModal}></button>
             <br/>
-            <div className="row">
+            <div className="row ml-2">
                 {brands?.map((item, index) =>
-                    <div className="card col-md-3 m-2" style={{width: "220px", cursor: "pointer"}}
+                    <div className="card col-md-2 m-2" style={{width: "220px", cursor: "pointer"}}
                          onClick={() => hideEditModal(item)}>
                         <img src={'http://localhost:8090/api/photo/get/' + item.attachment.id} alt="Avatar"
                              style={{width: "100%", margin: "5px 0 0 0"}}/>

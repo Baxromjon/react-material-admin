@@ -74,9 +74,9 @@ const Categories = () => {
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
             <button className="btn fa fa-plus-circle fa-3x" onClick={hideModal}></button>
             <br/>
-            <div className="row">
+            <div className="row ml-2">
                 {categories?.map((item, index) =>
-                    <div className="card col-md-3 m-2" style={{width: "200px", cursor: "pointer"}}
+                    <div className="card col-md-2 m-2" style={{width: "200px", cursor: "pointer"}}
                          onClick={() => hideEditModal(item)}>
                         <img src={'http://localhost:8090/api/photo/get/' + item.attachment.id} alt="Avatar"
                              style={{width: "100%"}}/>

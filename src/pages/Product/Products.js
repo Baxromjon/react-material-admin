@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-// import "./product.css"
+import "./product.css"
 import request from "../../utils/request";
 import {api} from "../../utils/api";
 import {Modal, ModalHeader, ModalFooter, ModalBody} from 'reactstrap';
@@ -186,65 +186,142 @@ const Products = () => {
     const deleteProduct = () => {
         request({
             url: api.deleteProduct + currentProduct.id,
-            method:'DELETE'
-        }).then(res=>{
+            method: 'DELETE'
+        }).then(res => {
             getAllProducts()
             deleteModal()
-        }).catch(err=>{})
+        }).catch(err => {
+        })
     }
 
 
     return (
-        <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
+        <div>
             <br/>
-            <div style={{width: "100px"}}>
+            <div>
                 <button className="btn fa fa-plus-circle fa-3x" onClick={hideModal}></button>
             </div>
-            <div className="container py-5">
-                <div className="row justify-content-left">
-                    {products?.map((item, index) =>
-                        <div className="col-md-4 col-lg-3 col-xl-3" style={{width: "300px", cursor: "pointer"}}>
-                            <div className="card text-black">
-                                <div className="card-body">
-                                    <img src={'http://localhost:8090/api/photo/get/' + item.mainPhoto.id}
-                                         className="card-img-top" alt="image"
-                                         style={{width: "220px", height: "300px"}}/>
-                                    {/*<div className="flip-card-back">*/}
-                                    <div className="text-center">
-                                        <h6 className="card-title">{item.name}</h6>
-                                        <p className="text-muted mb-4">{item.brand.name}</p>
-                                    </div>
-                                    <div>
-                                        <div className="d-flex justify-content-between text-style">
-                                            <span>Narx</span><span>{item.price} UZS</span>
-                                        </div>
-                                        <div className="d-flex justify-content-between">
-                                            <span>Chegirma</span><span>{item.discountPercent}%</span>
-                                        </div>
-                                        <div className="d-flex justify-content-between">
-                                            <span>Umumiy narx</span><span>{item.totalPrice} UZS</span>
-                                        </div>
-                                    </div>
-                                    <div className="d-flex justify-content-between total font-weight-bold mt-4">
-                                        <span>Umumiy narx</span><span>{item.totalPrice} UZS</span>
-                                    </div>
-                                    {/*</div>*/}
+            {/*<div className="container py-5">*/}
+            {/*    <div className="row">*/}
+            {/*        {products?.map((item, index) =>*/}
+            {/*            <div className="col-md-3" style={{width: "300px", cursor: "pointer"}}>*/}
+            {/*                <div className="card text-black">*/}
+            {/*                    <div className="card-body">*/}
+            {/*                        <img src={'http://localhost:8090/api/photo/get/' + item.mainPhoto.id}*/}
+            {/*                             className="card-img-top" alt="image"*/}
+            {/*                             style={{width: "220px", height: "300px"}}/>*/}
+            {/*                        /!*<div className="flip-card-back">*!/*/}
+            {/*                        <div className="text-center">*/}
+            {/*                            <h6 className="card-title">{item.name}</h6>*/}
+            {/*                            <p className="text-muted mb-4">{item.brand.name}</p>*/}
+            {/*                        </div>*/}
+            {/*                        <div>*/}
+            {/*                            <div className="d-flex justify-content-between text-style">*/}
+            {/*                                <span>Narx</span><span>{item.price} UZS</span>*/}
+            {/*                            </div>*/}
+            {/*                            <div className="d-flex justify-content-between">*/}
+            {/*                                <span>Chegirma</span><span>{item.discountPercent}%</span>*/}
+            {/*                            </div>*/}
+            {/*                            <div className="d-flex justify-content-between">*/}
+            {/*                                <span>Umumiy narx</span><span>{item.totalPrice} UZS</span>*/}
+            {/*                            </div>*/}
+            {/*                        </div>*/}
+            {/*                        <div className="d-flex justify-content-between total font-weight-bold mt-4">*/}
+            {/*                            <span>Umumiy narx</span><span>{item.totalPrice} UZS</span>*/}
+            {/*                        </div>*/}
+            {/*                        /!*</div>*!/*/}
 
-                                    <div className="row">
-                                        <button className="btn btn-info m-1" onClick={() => hideModalMonth(item)}>Bo`lib
-                                            to`lash
-                                        </button>
-                                        <button className="btn fa fa-edit fa-2x" style={{marginTop: "2px"}}
-                                                onClick={() => hideEditModal(item)}>
-                                        </button>
-                                        <button className="btn fa fa-trash-o fa-2x"
-                                                onClick={() => deleteModal(item)}></button>
+            {/*<div className="row">*/}
+            {/*    <button className="btn btn-info m-1" onClick={() => hideModalMonth(item)}>Bo`lib*/}
+            {/*        to`lash*/}
+            {/*    </button>*/}
+            {/*    <button className="btn fa fa-edit fa-2x" style={{marginTop: "2px"}}*/}
+            {/*            onClick={() => hideEditModal(item)}>*/}
+            {/*    </button>*/}
+            {/*    <button className="btn fa fa-trash-o fa-2x"*/}
+            {/*            onClick={() => deleteModal(item)}></button>*/}
+            {/*</div>*/}
+            {/*                    </div>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        )}*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+
+            <div className="row container">
+                {products?.map((item, index) =>
+                    <div className="col-md-6 bootstrap snippets bootdeys">
+                        <div className="product-content product-wrap clearfix">
+                            <div className="row">
+                                <div className="col-md-5 col-sm-12 col-xs-12">
+                                    <div className="product-image">
+                                        <img src={'http://localhost:8090/api/photo/get/' + item.mainPhoto.id}
+                                             alt="194x228"
+                                             className="img-responsive" style={{width: "194px", height: "228px"}}/>
+                                        <span className="tag2 hot">
+							HOT
+						</span>
+                                    </div>
+                                </div>
+                                <div className="col-md-7 col-sm-12 col-xs-12">
+                                    <div className="product-deatil">
+                                        <h5 className="name">
+                                            <a href="#">
+                                                {item.name} <span>{item.category.name}</span>
+                                            </a>
+                                        </h5>
+                                        <p className="price-container">
+                                            <span>{item.totalPrice + " UZS"}</span>
+                                        </p>
+                                        <span className="tag1"></span>
+                                    </div>
+                                    <div className="description">
+                                        <p>{item.description}</p>
+                                    </div>
+                                    <div className="product-info smart-form">
+                                        <div className="row">
+                                            <div className="col-md-6 col-sm-6 col-xs-6">
+                                                <a href="/app/ui/productInfo" className="btn btn-info">Ko`proq</a>
+                                            </div>
+                                            <div className="col-md-6 col-sm-6 col-xs-6">
+                                                <div className="rating">
+                                                    <label htmlFor="stars-rating-5"><i
+                                                        className="fa fa-star"></i></label>
+                                                    <label htmlFor="stars-rating-4"><i
+                                                        className="fa fa-star"></i></label>
+                                                    <label htmlFor="stars-rating-3"><i
+                                                        className="fa fa-star text-primary"></i></label>
+                                                    <label htmlFor="stars-rating-2"><i
+                                                        className="fa fa-star text-primary"></i></label>
+                                                    <label htmlFor="stars-rating-1"><i
+                                                        className="fa fa-star text-primary"></i></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="row" style={{marginTop:"5px"}}>
+                                            <div className="col-md-4 col-sm-4 col-xs-4">
+                                                <button className="btn fa fa-money fa-2x"
+                                                        onClick={() => hideModalMonth(item)}>
+                                                </button>
+                                            </div>
+                                            <div  className="col-md-4 col-sm-4 col-xs-4">
+                                                <button className="btn fa fa-edit fa-2x"
+                                                        onClick={() => hideEditModal(item)}>
+                                                </button>
+                                            </div>
+                                            <div  className="col-md-4 col-sm-4 col-xs-4">
+                                                <button className="btn fa fa-trash-o fa-2x"
+                                                        onClick={() => deleteModal(item)}></button>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
+
             </div>
             <Modal isOpen={showModal} centered size="lg" style={{maxWidth: "1000px", width: "80%"}}>
                 <ModalHeader>Mahsulot qo`shish</ModalHeader>
@@ -356,7 +433,7 @@ const Products = () => {
             </Modal>
             <Modal isOpen={showDeleteModal} centered>
                 <ModalHeader
-                    style={{textAlign: "center"}}>{currentProduct.name + "ni o'chirishni xohlaysizmi"}</ModalHeader>
+                    style={{textAlign: "center"}}>{currentProduct?.name + "ni o'chirishni xohlaysizmi"}</ModalHeader>
                 <ModalBody>
                     <button className="btn btn-danger m-1" onClick={deleteProduct}>O`chirish</button>
                     <button className="btn btn-success m-1" onClick={deleteModal}>Bekor qilish</button>
