@@ -1,23 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import {Modal, ModalHeader, ModalBody, ModalFooter} from "reactstrap";
-// import {AvField, AvForm} from 'availity-reactstrap-validation'
 import request from "../../utils/request";
 import {api} from "../../utils/api";
-import {TextField} from "@material-ui/core";
 import {useForm} from "react-hook-form";
 
 const Measurements = () => {
     const [measurements, setMeasurements] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showDeleteModalMeasure, setShowDeleteModalMeasure] = useState(false);
     const [showMonthModal, setShowMonthModal] = useState(false);
     const [currentMeasurement, setCurrentMeasurement] = useState('');
     const [months, setMonths] = useState([]);
     const {register, handleSubmit, watch, formState: {errors}} = useForm();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [currentMonth, setCurrentMonth] = useState('');
-    const [showEditModalMonth, setShowEditModalMonth]=useState(false);
+    const [showEditModalMonth, setShowEditModalMonth] = useState(false);
 
-    console.log(showMonthModal)
     useEffect(() => {
         getAllMeasurements()
         getAllMonths()
@@ -35,12 +34,18 @@ const Measurements = () => {
 
     const handleShow = () => {
         setShowModal(!showModal);
-        console.log(showModal)
     }
 
-    const saveMeasurement = (e) => {
-        console.log(e)
-
+    const saveMeasurement = (e, v) => {
+        request({
+            url:!currentMeasurement? api.addMeasurement:api.editMeasurement+currentMeasurement.id,
+            method: 'POST',
+            data: e
+        }).then(res => {
+            handleShow()
+            getAllMeasurements()
+        }).catch(err => {
+        })
     }
     const getAllMonths = () => {
         request({
@@ -70,7 +75,6 @@ const Measurements = () => {
         setShowDeleteModal(!showDeleteModal)
     }
     const deleteMonth = () => {
-        console.log(currentMonth)
         request({
             url: api.deleteMonth + currentMonth.id,
             method: 'DELETE'
@@ -84,7 +88,7 @@ const Measurements = () => {
         setCurrentMonth(item)
         setShowEditModalMonth(!showEditModalMonth)
     }
-    const editMonth=(e,v)=>{
+    const editMonth = (e, v) => {
         request({
             url: api.editMonth + currentMonth.id,
             method: 'POST',
@@ -92,6 +96,24 @@ const Measurements = () => {
         }).then(res => {
             hideEditMonthModal()
             getAllMonths()
+        }).catch(err => {
+        })
+    }
+    const editModal = (item) => {
+        setCurrentMeasurement(item)
+        setShowModal(!showModal);
+    }
+    const deleteModalMeasur = (item) => {
+        setCurrentMeasurement(item)
+        setShowDeleteModalMeasure(!showDeleteModalMeasure)
+    }
+    const deleteMeasurement = () => {
+        request({
+            url: api.deleteMeasurement + currentMeasurement.id,
+            method: 'DELETE'
+        }).then(res => {
+            getAllMeasurements()
+            deleteModalMeasur()
         }).catch(err => {
         })
     }
@@ -118,8 +140,9 @@ const Measurements = () => {
                                 <td>{index + 1}</td>
                                 <td>{item.name}</td>
                                 <td>
-                                    <button className="btn fa fa-edit fa-2x"></button>
-                                    <button className="btn fa fa-trash-o fa-2x"></button>
+                                    <button className="btn fa fa-edit fa-2x" onClick={() => editModal(item)}></button>
+                                    <button className="btn fa fa-trash-o fa-2x"
+                                            onClick={() => deleteModalMeasur(item)}></button>
                                 </td>
                             </tr>
                         )}
@@ -159,23 +182,20 @@ const Measurements = () => {
             </div>
 
             <Modal isOpen={showModal} centered={true}>
-                <ModalHeader>O`lchov qo`shish</ModalHeader>
+                <ModalHeader>{currentMeasurement?"O`lchov birligini taxrirlash":"O`lchov birligini qo`shish"}</ModalHeader>
                 <ModalBody>
-                    <form action="#" onSubmit={(e) => saveMeasurement(e)}>
-                        <TextField id="standard-basic" label="Nomini kiriting" variant="standard" name="name"
-                                   fullWidth="100px"/>
+                    <form onSubmit={handleSubmit(saveMeasurement)}>
+                        <div className="form-group">
+                            <label>O`lchov birlik nomi</label>
+                            <input className="form-control form-control-lg" defaultValue={currentMeasurement?.name}
+                                   {...register("name")} required/>
+                        </div>
+                        <div>
+                            <button className="btn fa fa-plus-circle fa-2x" type="submit"></button>
+                            <button className="btn fa fa-close fa-2x" onClick={handleShow}></button>
+                        </div>
                     </form>
                 </ModalBody>
-                <ModalFooter>
-                    <div>
-                        <button className="btn btn-danger" style={{backgroundColor: "#49be25"}}
-                                onClick={handleShow}>Bekor qilish
-                        </button>
-                        <button className="btn btn-success" type="submit" style={{backgroundColor: "#EC164B"}}>Saqlash
-                        </button>
-                    </div>
-
-                </ModalFooter>
             </Modal>
             <Modal isOpen={showMonthModal} centered={true}>
                 <ModalHeader>Oy qo'shish</ModalHeader>
@@ -215,6 +235,13 @@ const Measurements = () => {
                 <ModalBody>
                     <button className="btn btn-danger m-1" onClick={deleteMonth}>O'chirish</button>
                     <button className="btn btn-success m-1" onClick={hideDeleteModal}>Bekor qilish</button>
+                </ModalBody>
+            </Modal>
+            <Modal isOpen={showDeleteModalMeasure} centered>
+                <ModalHeader>{currentMeasurement?.name + "ni o`chirishni xohlaysizmi?"}</ModalHeader>
+                <ModalBody>
+                    <button className="btn btn-danger m-1" onClick={deleteMeasurement}>O'chirish</button>
+                    <button className="btn btn-success m-1" onClick={deleteModalMeasur}>Bekor qilish</button>
                 </ModalBody>
             </Modal>
 

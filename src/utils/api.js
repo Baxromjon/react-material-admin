@@ -17,6 +17,9 @@ export const api={
     //MEASUREMENTS
 
     getAllMeasurements:'/measurement/get_all_measurement',
+    addMeasurement:'/measurement/add_measurement',
+    deleteMeasurement: '/measurement/delete/',
+    editMeasurement: '/measurement/edit/',
 
     //CATEGORIES
     getAllCategories:'/category/get_all_category',
