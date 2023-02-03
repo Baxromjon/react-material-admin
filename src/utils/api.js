@@ -10,7 +10,7 @@ export const api={
     addProduct: '/product/add',
     editProduct:'/product/edit/',
     deleteProduct: '/product/delete_product/',
-
+    getProductById: '/product/getById/',
     //ATTACHMENTS
     getById:'/photo/get/',
 

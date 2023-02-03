@@ -1,54 +1,57 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import "./productInfo.css"
+import {CURRENT_PRODUCT} from "../../utils/constant";
+import request from "../../utils/request";
+import {api} from "../../utils/api";
 
-function ProductInfo () {
-        return (
-            <div>
-                <div className="container bootdey">
-                    <div className="col-md-12">
-                        <section className="panel">
-                            <div className="panel-body">
+function ProductInfo() {
+    const [productId, setProductId] = useState(localStorage.getItem(CURRENT_PRODUCT))
+    const [currentProduct, setCurrentProduct] = useState(localStorage.getItem(CURRENT_PRODUCT))
+    console.log(currentProduct)
+    useEffect(() => {
+        getCurrentProduct()
+    }, [])
+
+    const getCurrentProduct = () => {
+        request({
+            url: api.getProductById + productId,
+            method: 'GET'
+        }).then(res => {
+            setCurrentProduct(res.data.data)
+        }).catch(err => {
+        })
+    }
+    return (
+        <div>
+            <div className="container bootdey">
+                <div className="col-md-12">
+                    <section className="panel">
+                        <div className="panel-body">
+                            <div className="row">
                                 <div className="col-md-6">
                                     <div className="pro-img-details">
-                                        <img src="https://www.bootdey.com/image/550x380/FFB6C1/000000" alt=""/>
+                                        <img src={'http://localhost:8090/api/photo/get/' + currentProduct?.mainPhoto?.id}
+                                             style={{width: "380px"}} alt=""/>
                                     </div>
-                                    <div className="pro-img-list">
-                                        <a href="#">
-                                            <img src="https://www.bootdey.com/image/115x100/87CEFA/000000" alt=""/>
-                                        </a>
-                                        <a href="#">
-                                            <img src="https://www.bootdey.com/image/115x100/FF7F50/000000" alt=""/>
-                                        </a>
-                                        <a href="#">
-                                            <img src="https://www.bootdey.com/image/115x100/20B2AA/000000" alt=""/>
-                                        </a>
-                                        <a href="#">
-                                            <img src="https://www.bootdey.com/image/120x100/20B2AA/000000" alt=""/>
-                                        </a>
-                                    </div>
+
                                 </div>
                                 <div className="col-md-6">
                                     <h4 className="pro-d-title">
-                                        <a href="#" className="">
-                                            Leopard Shirt Dress
-                                        </a>
+                                        <h5>{currentProduct.name}</h5>
                                     </h4>
                                     <p>
-                                        Praesent ac condimentum felis. Nulla at nisl orci, at dignissim dolor, The best
-                                        product descriptions address your ideal buyer directly and personally. The best
-                                        product descriptions address your ideal buyer directly and personally.
+                                        {currentProduct.description}
                                     </p>
                                     <div className="product_meta">
-                                        <span className="posted_in"> <strong>Categories:</strong> <a rel="tag"
-                                                                                                     href="#">Jackets</a>, <a
-                                            rel="tag" href="#">Men</a>, <a rel="tag" href="#">Shirts</a>, <a rel="tag"
-                                                                                                             href="#">T-shirt</a>.</span>
-                                        <span className="tagged_as"><strong>Tags:</strong> <a rel="tag"
-                                                                                              href="#">mens</a>, <a
-                                            rel="tag" href="#">womens</a>.</span>
+                                        <span className="posted_in"> <strong>Kategoriya:</strong> <a rel="tag"
+                                                                                                     href="#">{currentProduct?.category?.name}</a>, <a rel="tag" href="#">{currentProduct?.category?.category?.name}</a>.</span>
+                                        <span className="tagged_as"><strong>Teglar:</strong> <a rel="tag"
+                                                                                              href="#">{currentProduct?.name}</a>, <a
+                                            rel="tag" href="#">{currentProduct?.category?.name}</a>.</span>
                                     </div>
-                                    <div className="m-bot15"><strong>Price : </strong> <span
-                                        className="amount-old">$544</span> <span className="pro-price"> $300.00</span>
+                                    <div className="m-bot15"><strong>Narxi : </strong> <span
+                                        className="amount-old">{currentProduct.price + " UZS"}</span> <span
+                                        className="pro-price"> {currentProduct.totalPrice + " UZS"}</span>
                                     </div>
                                     <div className="form-group">
                                         <label>Quantity</label>
@@ -60,12 +63,24 @@ function ProductInfo () {
                                         </button>
                                     </p>
                                 </div>
+                                <div className="col-md-12">
+                                    <div className="pro-img-list">
+                                        {currentProduct?.photo?.map((item, index)=>
+                                            <a href="#">
+                                                <img src={'http://localhost:8090/api/photo/get/' + item.id} style={{width:"115px", height:"130px"}} alt=""/>
+                                            </a>
+                                        )}
+                                    </div>
+                                </div>
+
                             </div>
-                        </section>
-                    </div>
+
+                        </div>
+                    </section>
                 </div>
             </div>
-        );
+        </div>
+    );
 }
 
 ProductInfo.propTypes = {};

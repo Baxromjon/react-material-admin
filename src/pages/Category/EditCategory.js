@@ -3,7 +3,6 @@ import {Modal, ModalBody, ModalHeader} from "reactstrap";
 import {useForm} from "react-hook-form";
 import request from "../../utils/request";
 import {api} from "../../utils/api";
-import {CURRENT_IMAGE} from "../../utils/constant";
 
 function EditCategory(props) {
     const {
@@ -16,9 +15,6 @@ function EditCategory(props) {
     const [isOpen, setIsOpen] = useState(true);
     const {register, handleSubmit, watch, formState: {errors}} = useForm();
     const [currentFile1, setCurrentFile1] = useState(currentFile);
-    // const editCategory = (e, v) => {
-    //
-    // }
     const uploadFile = (file) => {
         let formData = new FormData();
         formData.append("file", file.target.files[0])

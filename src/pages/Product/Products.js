@@ -2,10 +2,12 @@ import React, {useEffect, useState} from 'react';
 import "./product.css"
 import request from "../../utils/request";
 import {api} from "../../utils/api";
-import {Modal, ModalHeader, ModalFooter, ModalBody} from 'reactstrap';
+import {Modal, ModalHeader, ModalBody} from 'reactstrap';
 import {useForm} from "react-hook-form";
 import AddMonthlyPrice from "./AddMonthlyPrice";
 import EditProduct from "./EditProduct";
+import {Link, useHistory} from "react-router-dom";
+import {CURRENT_PRODUCT} from "../../utils/constant";
 
 
 const Products = () => {
@@ -20,9 +22,9 @@ const Products = () => {
     const [currentFile, setCurrentFile] = useState([]);
     const [showMonthModal, setShowModalMonth] = useState(false);
     const [showEditModal, setEditShowModal] = useState(false);
-    const [init, setInit] = useState(1);
     const [month, setMonth] = useState([]);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const history = useHistory();
     // window.setTimeout(function () {
     //     if (showEditModal===false) {
     //         window.location.reload();
@@ -193,7 +195,9 @@ const Products = () => {
         }).catch(err => {
         })
     }
-
+    const getCurrentProduct=(item)=>{
+        localStorage.setItem(CURRENT_PRODUCT, item.id);
+    }
 
     return (
         <div>
@@ -280,8 +284,9 @@ const Products = () => {
                                     </div>
                                     <div className="product-info smart-form">
                                         <div className="row">
-                                            <div className="col-md-6 col-sm-6 col-xs-6">
-                                                <a href="/app/ui/productInfo" className="btn btn-info">Ko`proq</a>
+                                            <div className="col-md-6 col-sm-6 col-xs-6"
+                                                 onClick={() => getCurrentProduct(item)}>
+                                                <Link to="/app/ui/productInfo" className="btn btn-info">Ko`proq</Link>
                                             </div>
                                             <div className="col-md-6 col-sm-6 col-xs-6">
                                                 <div className="rating">
@@ -298,18 +303,18 @@ const Products = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row" style={{marginTop:"5px"}}>
+                                        <div className="row" style={{marginTop: "5px"}}>
                                             <div className="col-md-4 col-sm-4 col-xs-4">
                                                 <button className="btn fa fa-money fa-2x"
                                                         onClick={() => hideModalMonth(item)}>
                                                 </button>
                                             </div>
-                                            <div  className="col-md-4 col-sm-4 col-xs-4">
+                                            <div className="col-md-4 col-sm-4 col-xs-4">
                                                 <button className="btn fa fa-edit fa-2x"
                                                         onClick={() => hideEditModal(item)}>
                                                 </button>
                                             </div>
-                                            <div  className="col-md-4 col-sm-4 col-xs-4">
+                                            <div className="col-md-4 col-sm-4 col-xs-4">
                                                 <button className="btn fa fa-trash-o fa-2x"
                                                         onClick={() => deleteModal(item)}></button>
                                             </div>
