@@ -34,6 +34,11 @@ export const api={
 
     //DETAILS
     getDetails: '/detail/get_all_details',
+    addDetail: '/detail/add',
+
+
+    //VALUES
+    getAllValueByDetailId:'/value/get_all_by_id/',
 
     //ATTACHMENT
     addFile: '/photo/multi-upload',

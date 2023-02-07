@@ -116,7 +116,8 @@ const Products = () => {
             active: '',
             brandId: '',
             carousel: '',
-            flash: ''
+            flash: '',
+            amount:''
         }
         ProductDTO.name = e.name;
         ProductDTO.categoryId = e.categoryId;
@@ -131,6 +132,8 @@ const Products = () => {
         ProductDTO.price = e.price;
         ProductDTO.warrantyMonth = e.warrantyMonth;
         ProductDTO.active = e.active;
+        ProductDTO.amount=e.amount
+        console.log(ProductDTO)
         request({
             url: api.addProduct,
             method: 'POST',
@@ -205,53 +208,6 @@ const Products = () => {
             <div>
                 <button className="btn fa fa-plus-circle fa-3x" onClick={hideModal}></button>
             </div>
-            {/*<div className="container py-5">*/}
-            {/*    <div className="row">*/}
-            {/*        {products?.map((item, index) =>*/}
-            {/*            <div className="col-md-3" style={{width: "300px", cursor: "pointer"}}>*/}
-            {/*                <div className="card text-black">*/}
-            {/*                    <div className="card-body">*/}
-            {/*                        <img src={'http://localhost:8090/api/photo/get/' + item.mainPhoto.id}*/}
-            {/*                             className="card-img-top" alt="image"*/}
-            {/*                             style={{width: "220px", height: "300px"}}/>*/}
-            {/*                        /!*<div className="flip-card-back">*!/*/}
-            {/*                        <div className="text-center">*/}
-            {/*                            <h6 className="card-title">{item.name}</h6>*/}
-            {/*                            <p className="text-muted mb-4">{item.brand.name}</p>*/}
-            {/*                        </div>*/}
-            {/*                        <div>*/}
-            {/*                            <div className="d-flex justify-content-between text-style">*/}
-            {/*                                <span>Narx</span><span>{item.price} UZS</span>*/}
-            {/*                            </div>*/}
-            {/*                            <div className="d-flex justify-content-between">*/}
-            {/*                                <span>Chegirma</span><span>{item.discountPercent}%</span>*/}
-            {/*                            </div>*/}
-            {/*                            <div className="d-flex justify-content-between">*/}
-            {/*                                <span>Umumiy narx</span><span>{item.totalPrice} UZS</span>*/}
-            {/*                            </div>*/}
-            {/*                        </div>*/}
-            {/*                        <div className="d-flex justify-content-between total font-weight-bold mt-4">*/}
-            {/*                            <span>Umumiy narx</span><span>{item.totalPrice} UZS</span>*/}
-            {/*                        </div>*/}
-            {/*                        /!*</div>*!/*/}
-
-            {/*<div className="row">*/}
-            {/*    <button className="btn btn-info m-1" onClick={() => hideModalMonth(item)}>Bo`lib*/}
-            {/*        to`lash*/}
-            {/*    </button>*/}
-            {/*    <button className="btn fa fa-edit fa-2x" style={{marginTop: "2px"}}*/}
-            {/*            onClick={() => hideEditModal(item)}>*/}
-            {/*    </button>*/}
-            {/*    <button className="btn fa fa-trash-o fa-2x"*/}
-            {/*            onClick={() => deleteModal(item)}></button>*/}
-            {/*</div>*/}
-            {/*                    </div>*/}
-            {/*                </div>*/}
-            {/*            </div>*/}
-            {/*        )}*/}
-            {/*    </div>*/}
-            {/*</div>*/}
-
             <div className="row container">
                 {products?.map((item, index) =>
                     <div className="col-md-6 bootstrap snippets bootdeys">
@@ -303,23 +259,23 @@ const Products = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="row" style={{marginTop: "5px"}}>
-                                            <div className="col-md-4 col-sm-4 col-xs-4">
-                                                <button className="btn fa fa-money fa-2x"
-                                                        onClick={() => hideModalMonth(item)}>
-                                                </button>
-                                            </div>
-                                            <div className="col-md-4 col-sm-4 col-xs-4">
-                                                <button className="btn fa fa-edit fa-2x"
-                                                        onClick={() => hideEditModal(item)}>
-                                                </button>
-                                            </div>
-                                            <div className="col-md-4 col-sm-4 col-xs-4">
-                                                <button className="btn fa fa-trash-o fa-2x"
-                                                        onClick={() => deleteModal(item)}></button>
-                                            </div>
+                                        {/*<div className="row" style={{marginTop: "5px"}}>*/}
+                                        {/*    <div className="col-md-4 col-sm-4 col-xs-4">*/}
+                                        {/*        <button className="btn fa fa-money fa-2x"*/}
+                                        {/*                onClick={() => hideModalMonth(item)}>*/}
+                                        {/*        </button>*/}
+                                        {/*    </div>*/}
+                                        {/*    <div className="col-md-4 col-sm-4 col-xs-4">*/}
+                                        {/*        <button className="btn fa fa-edit fa-2x"*/}
+                                        {/*                onClick={() => hideEditModal(item)}>*/}
+                                        {/*        </button>*/}
+                                        {/*    </div>*/}
+                                        {/*    <div className="col-md-4 col-sm-4 col-xs-4">*/}
+                                        {/*        <button className="btn fa fa-trash-o fa-2x"*/}
+                                        {/*                onClick={() => deleteModal(item)}></button>*/}
+                                        {/*    </div>*/}
 
-                                        </div>
+                                        {/*</div>*/}
                                     </div>
                                 </div>
                             </div>
@@ -345,6 +301,11 @@ const Products = () => {
                                         <input className="form-control form-control-lg" type="number"
                                                defaultValue="" {...register("price")} required/>
                                     </div>
+                                    {/*<div className="form-group col-md-3">*/}
+                                    {/*    <label>Mahsulot soni</label>*/}
+                                    {/*    <input className="form-control form-control-lg" type="number"*/}
+                                    {/*           defaultValue="" {...register("amount")} required/>*/}
+                                    {/*</div>*/}
                                 </div>
                                 <div className="row">
                                     <div className="form-group col-md-6">
@@ -360,33 +321,6 @@ const Products = () => {
                                 </div>
                                 <div className="row">
                                     <div className="form-group col-md-6">
-                                        <label>Kategoriya</label>
-                                        <select {...register("categoryId")} className="form-control form-control-lg">
-                                            {categories?.map((item, index) =>
-                                                <option value={item.id}>{item.name}</option>
-                                            )}
-                                        </select>
-                                    </div>
-                                    <div className="form-group col-md-6">
-                                        <label>O`lchov</label>
-                                        <select {...register("measurementId")} className="form-control form-control-lg">
-                                            {measurements?.map((item, index) =>
-                                                <option value={item.id}>{item.name}</option>
-                                            )}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="form-group col-md-6">
-                                        <label>Detail</label>
-                                        <select {...register("detailId")} className="form-control form-control-lg"
-                                                multiple>
-                                            {details?.map((item, index) =>
-                                                <option value={item.id}>{item.name}</option>
-                                            )}
-                                        </select>
-                                    </div>
-                                    <div className="form-group col-md-6">
                                         <label>Brand</label>
                                         <select {...register("brandId")} className="form-control form-control-lg">
                                             {brands?.map((item, index) =>
@@ -394,7 +328,41 @@ const Products = () => {
                                             )}
                                         </select>
                                     </div>
+                                    <div className="form-group col-md-6">
+                                        <label>Kategoriya</label>
+                                        <select {...register("categoryId")} className="form-control form-control-lg">
+                                            {categories?.map((item, index) =>
+                                                <option value={item.id}>{item.name}</option>
+                                            )}
+                                        </select>
+                                    </div>
+                                    {/*<div className="form-group col-md-6">*/}
+                                    {/*    <label>O`lchov</label>*/}
+                                    {/*    <select {...register("measurementId")} className="form-control form-control-lg">*/}
+                                    {/*        {measurements?.map((item, index) =>*/}
+                                    {/*            <option value={item.id}>{item.name}</option>*/}
+                                    {/*        )}*/}
+                                    {/*    </select>*/}
+                                    {/*</div>*/}
                                 </div>
+                                {/*<div className="row">*/}
+                                {/*    <div className="form-group col-md-6">*/}
+                                {/*        <label>Detail</label>*/}
+                                {/*        <select {...register("detailId")} className="form-control form-control-lg">*/}
+                                {/*            {details?.map((item, index) =>*/}
+                                {/*                <option value={item.id}>{item.name}</option>*/}
+                                {/*            )}*/}
+                                {/*        </select>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="form-group col-md-6">*/}
+                                {/*        <label>Value</label>*/}
+                                {/*        <input className="form-control form-control-lg" type="text"*/}
+                                {/*               defaultValue="" {...register("valueName")} required/>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
+                                {/*<div className="row">*/}
+                                {/*    */}
+                                {/*</div>*/}
                                 <div className="row">
                                     <div className="form-group col-md-4">
                                         <label>Active</label>

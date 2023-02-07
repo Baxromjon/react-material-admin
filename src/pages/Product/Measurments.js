@@ -121,7 +121,7 @@ const Measurements = () => {
         <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
             <div className="row">
                 <div className="col-md-6">
-                    <h4 style={{textAlign: "center"}}>O`lchov birliklari</h4>
+                    <h4 style={{textAlign: "center"}}>O`lchamlar</h4>
                     <div style={{width: "100px"}}>
                         <button className="btn fa fa-plus-circle fa-3x" onClick={handleShow}></button>
                     </div>

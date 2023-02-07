@@ -47,6 +47,7 @@ const structure = [
       {label:"Brendlar", link: "/app/ui/brands"},
       {label:"Buyurtmalar", link: "/app/ui/orders"},
       {label:"O`lchovlar", link: "/app/ui/measurements"},
+      {label:"Details", link: "/app/ui/details"},
     ]
   },
   {

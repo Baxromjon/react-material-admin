@@ -41,6 +41,7 @@ import Categories from "../../pages/Category/Catregories";
 import Measurements from "../../pages/Product/Measurments";
 import Months from "../../pages/months/Months";
 import ProductInfo from "../../pages/Product/ProductInfo";
+import Details from "../../pages/details/Details";
 
 function Layout(props) {
   var classes = useStyles();
@@ -70,6 +71,7 @@ function Layout(props) {
               <Route path="/app/ui/brands" component={Brands} />
               <Route path="/app/ui/categories" component={Categories} />
               <Route path="/app/ui/measurements" component={Measurements} />
+              <Route path="/app/ui/details" component={Details} />
               {/*<Route path="/app/ui/months" component={Months} />*/}
               <Route
                 exact
