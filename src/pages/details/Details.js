@@ -144,7 +144,7 @@ function Details() {
                     <form onSubmit={handleSubmit(editMeasurement)}>
                         <div className="form-group">
                             <label>Detail nomi</label>
-                            <input className="form-control form-control-lg" defaultValue={currentDetail.name}
+                            <input className="form-control form-control-lg" defaultValue={currentDetail?.name}
                                    {...register("name")} required/>
                         </div>
                         <div>

@@ -3,15 +3,24 @@ import "./productInfo.css"
 import {CURRENT_PRODUCT} from "../../utils/constant";
 import request from "../../utils/request";
 import {api} from "../../utils/api";
+import {useForm} from "react-hook-form";
 
 function ProductInfo() {
     const [productId, setProductId] = useState(localStorage.getItem(CURRENT_PRODUCT))
     const [currentProduct, setCurrentProduct] = useState(localStorage.getItem(CURRENT_PRODUCT))
-    console.log(currentProduct)
+    const [amountProduct, setAmountProduct] = useState([]);
+    const {register, handleSubmit, watch, formState: {errors}} = useForm();
+    const [measurements, setMeasurements] = useState([]);
+    const [details, setDetails] = useState([])
+    const [currentDetail, setCurrentDetail] = useState('');
+    const [value, setValue] = useState([]);
+
     useEffect(() => {
         getCurrentProduct()
+        getAmountProduct()
+        getAllMeasurements()
+        getAllDetails()
     }, [])
-
     const getCurrentProduct = () => {
         request({
             url: api.getProductById + productId,
@@ -21,6 +30,60 @@ function ProductInfo() {
         }).catch(err => {
         })
     }
+    const getAmountProduct = () => {
+        let id = currentProduct.id
+        request({
+            url: api.getAmountProduct + productId,
+            method: 'GET'
+        }).then(res => {
+            setAmountProduct(res.data.data)
+        }).catch(err => {
+        })
+    }
+
+    const getAllMeasurements = () => {
+        request({
+            url: api.getAllMeasurements,
+            method: 'GET'
+        }).then(res => {
+            setMeasurements(res.data.data)
+        }).catch(err => {
+        })
+    }
+    const getAllDetails = () => {
+        request({
+            url: api.getDetails,
+            method: 'GET'
+        }).then(res => {
+            setDetails(res.data.data)
+        }).catch(err => {
+        })
+    }
+    const getDetailId = (item) => {
+        let id = item.target.value
+        request({
+            url: api.getAllValueByDetailId + id,
+            method: 'GET'
+        }).then(res => {
+            setValue(res.data.data)
+        }).catch(err => {
+        })
+    }
+
+    const saveAmount = (e, v) => {
+        request({
+            url: api.addProductAmount + currentProduct.id,
+            method: 'POST',
+            data: e
+        }).then(res => {
+            getCurrentProduct()
+            getAmountProduct()
+            getAllMeasurements()
+            getAllDetails()
+        }).catch(err => {
+        })
+    }
+
     return (
         <div>
             <div className="container bootdey">
@@ -84,7 +147,73 @@ function ProductInfo() {
                                     </div>
                                     <div className="m-bot15">
                                         <label><strong>Omborda mavjud:</strong></label>
-                                        <span >{currentProduct.amount +" dona"}</span>
+                                        <form onSubmit={handleSubmit(saveAmount)}>
+                                            <div className="row">
+                                                <div className="col-md-3">
+                                                    <label>O`lcham</label>
+                                                    <select {...register("measurementId")}
+                                                            className="form-control">
+                                                        <option value="">O`lcham</option>
+                                                        {measurements?.map((item, index) =>
+                                                            <option value={item.id}>{item.name}</option>
+                                                        )}
+                                                    </select>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <label>Detail</label>
+                                                    <select {...register("detailId")}
+                                                            className="form-control"
+                                                            onChange={(item) => getDetailId(item)}
+                                                    >
+                                                        <option value="">Detail</option>
+                                                        {details?.map((item, index) =>
+                                                            <option value={item.id}>{item.name}</option>
+                                                        )}
+                                                    </select>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <label>Value</label>
+                                                    <select {...register("valueId")}
+                                                            className="form-control">
+                                                        <option value="">Value</option>
+                                                        {value?.map((item, index) =>
+                                                            <option value={item.id}>{item.name}</option>
+                                                        )}
+                                                    </select>
+                                                </div>
+                                                <div className="col-md-3">
+                                                    <label>Sonini kiriting</label>
+                                                    <input className="form-control" type="number"
+                                                           {...register("amount")} required/>
+                                                </div>
+                                                <div className="col-md-3 mt-1 mb-1">
+                                                    <button className="btn btn-success">Saqlash</button>
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div>
+                                        <table className="table table-hover text-center">
+                                            <thead>
+                                            <tr>
+                                                <th>№</th>
+                                                <th>O`lchami</th>
+                                                <th>Rangi</th>
+                                                <th>Mahsulot soni</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {amountProduct?.map((item, index) =>
+                                                <tr key={index}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{item.measurement}</td>
+                                                    <td>{item.value}</td>
+                                                    <td>{item.amount}</td>
+                                                </tr>
+                                            )}
+                                            </tbody>
+                                        </table>
                                     </div>
                                     {/*<p>*/}
                                     {/*    <button className="btn btn-round btn-danger" type="button"><i*/}

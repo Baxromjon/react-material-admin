@@ -11,6 +11,10 @@ export const api={
     editProduct:'/product/edit/',
     deleteProduct: '/product/delete_product/',
     getProductById: '/product/getById/',
+    getAmountProduct: '/product/get_product_by_amount/',
+    addProductAmount:'/product/edit_amount/',
+
+
     //ATTACHMENTS
     getById:'/photo/get/',
 
@@ -61,6 +65,7 @@ export const api={
     saveMonthlyPrice:'/monthly_price/add',
     editMonthlyPrice:'/monthly_price/edit',
     getProductByMonthly:'/monthly_price/get_all_product_by_monthly_price/',
+
 
 
 }
