@@ -35,10 +35,14 @@ export const api={
     //DETAILS
     getDetails: '/detail/get_all_details',
     addDetail: '/detail/add',
-
+    editDetail: '/detail/edit/',
+    deleteDetail: '/detail/delete_detail/',
 
     //VALUES
     getAllValueByDetailId:'/value/get_all_by_id/',
+    addValue: '/value/add',
+    editValue: '/value/edit/',
+    deleteValue: '/value/delete/',
 
     //ATTACHMENT
     addFile: '/photo/multi-upload',
