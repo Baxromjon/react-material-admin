@@ -259,23 +259,6 @@ const Products = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/*<div className="row" style={{marginTop: "5px"}}>*/}
-                                        {/*    <div className="col-md-4 col-sm-4 col-xs-4">*/}
-                                        {/*        <button className="btn fa fa-money fa-2x"*/}
-                                        {/*                onClick={() => hideModalMonth(item)}>*/}
-                                        {/*        </button>*/}
-                                        {/*    </div>*/}
-                                        {/*    <div className="col-md-4 col-sm-4 col-xs-4">*/}
-                                        {/*        <button className="btn fa fa-edit fa-2x"*/}
-                                        {/*                onClick={() => hideEditModal(item)}>*/}
-                                        {/*        </button>*/}
-                                        {/*    </div>*/}
-                                        {/*    <div className="col-md-4 col-sm-4 col-xs-4">*/}
-                                        {/*        <button className="btn fa fa-trash-o fa-2x"*/}
-                                        {/*                onClick={() => deleteModal(item)}></button>*/}
-                                        {/*    </div>*/}
-
-                                        {/*</div>*/}
                                     </div>
                                 </div>
                             </div>

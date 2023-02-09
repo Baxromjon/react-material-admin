@@ -4,6 +4,8 @@ import {CURRENT_PRODUCT} from "../../utils/constant";
 import request from "../../utils/request";
 import {api} from "../../utils/api";
 import {useForm} from "react-hook-form";
+import {Modal, ModalBody, ModalHeader} from "reactstrap";
+import {useHistory} from "react-router-dom";
 
 function ProductInfo() {
     const [productId, setProductId] = useState(localStorage.getItem(CURRENT_PRODUCT))
@@ -14,13 +16,41 @@ function ProductInfo() {
     const [details, setDetails] = useState([])
     const [currentDetail, setCurrentDetail] = useState('');
     const [value, setValue] = useState([]);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [brands, setBrands] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [currentFile, setCurrentFile] = useState([]);
+
+    const history = useHistory();
 
     useEffect(() => {
         getCurrentProduct()
         getAmountProduct()
         getAllMeasurements()
         getAllDetails()
+        getAllBrands()
+        getAllCategories()
     }, [])
+
+    const getAllBrands = () => {
+        request({
+            url: api.getAllBrands,
+            method: 'GET'
+        }).then(res => {
+            setBrands(res.data.data)
+        }).catch(err => {
+        })
+    }
+    const getAllCategories = () => {
+        request({
+            url: api.getAllCategories,
+            method: 'GET'
+        }).then(res => {
+            setCategories(res.data.data)
+        }).catch(err => {
+        })
+    }
     const getCurrentProduct = () => {
         request({
             url: api.getProductById + productId,
@@ -37,6 +67,20 @@ function ProductInfo() {
             method: 'GET'
         }).then(res => {
             setAmountProduct(res.data.data)
+        }).catch(err => {
+        })
+    }
+    const uploadFile = (file) => {
+        let formData = new FormData();
+        for (let i = 0; i < file.target.files.length; i++) {
+            formData.append("files", file.target.files[i])
+        }
+        request({
+            url: api.addFile,
+            method: 'POST',
+            data: formData
+        }).then(res => {
+            setCurrentFile(res.data)
         }).catch(err => {
         })
     }
@@ -69,7 +113,6 @@ function ProductInfo() {
         }).catch(err => {
         })
     }
-
     const saveAmount = (e, v) => {
         request({
             url: api.addProductAmount + currentProduct.id,
@@ -80,6 +123,52 @@ function ProductInfo() {
             getAmountProduct()
             getAllMeasurements()
             getAllDetails()
+        }).catch(err => {
+        })
+    }
+    const hideEditModal = () => {
+        setShowEditModal(!showEditModal)
+    }
+    const editProduct = (e, v) => {
+        let ProductDTO = {
+            name: e.name,
+            categoryId: e.categoryId,
+            measurementId: e.measurementId,
+            discountPercent: e.discountPercent,
+            description: e.description,
+            photoId: [],
+            warrantyMonth: e.warrantyMonth,
+            detailId: [],
+            price: e.price,
+            active: e.active,
+            brandId: e.brandId,
+            carousel: e.carousel,
+            flash: e.flash,
+            amount:e.amount
+        }
+        ProductDTO.detailId = e.detailId;
+        ProductDTO.photoId = currentFile;
+        console.log(ProductDTO)
+        request({
+            url: api.editProduct + currentProduct.id,
+            method: 'POST',
+            data: ProductDTO
+        }).then(res => {
+            getCurrentProduct()
+            hideEditModal()
+        }).catch(err => {
+        })
+    }
+    const deleteModal = () => {
+        setShowDeleteModal(!showDeleteModal)
+    }
+    const deleteProduct = () => {
+        request({
+            url: api.deleteProduct + currentProduct.id,
+            method: 'DELETE'
+        }).then(res => {
+            deleteModal()
+            history.push("/app/ui/products")
         }).catch(err => {
         })
     }
@@ -95,9 +184,18 @@ function ProductInfo() {
                                     <div className="pro-img-details">
                                         <img
                                             src={'http://localhost:8090/api/photo/get/' + currentProduct?.mainPhoto?.id}
-                                            style={{width: "380px"}} alt=""/>
+                                            style={{width: "490px", height: "380px"}} alt=""/>
                                     </div>
-
+                                    <div>
+                                        <div className="pro-img-list">
+                                            {currentProduct?.photo?.map((item, index) =>
+                                                <a href="#">
+                                                    <img src={'http://localhost:8090/api/photo/get/' + item.id}
+                                                         style={{width: "115px", height: "130px"}} alt=""/>
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="row">
@@ -108,21 +206,21 @@ function ProductInfo() {
                                         </div>
                                         <div className="col-md-6">
                                             <div className="row" style={{marginTop: "5px"}}>
-                                                <div className="col-md-4 col-sm-4 col-xs-4">
-                                                    <button className="btn fa fa-money fa-2x"
-                                                        // onClick={() => hideModalMonth(item)}
-                                                    >
-                                                    </button>
-                                                </div>
-                                                <div className="col-md-4 col-sm-4 col-xs-4">
+                                                {/*<div className="col-md-4 col-sm-4 col-xs-4">*/}
+                                                {/*    <button className="btn fa fa-money fa-2x"*/}
+                                                {/*        // onClick={() => hideModalMonth(item)}*/}
+                                                {/*    >*/}
+                                                {/*    </button>*/}
+                                                {/*</div>*/}
+                                                <div className="col-md-3 col-sm-4 col-xs-4">
                                                     <button className="btn fa fa-edit fa-2x"
-                                                        // onClick={() => hideEditModal(item)}
+                                                            onClick={hideEditModal}
                                                     >
                                                     </button>
                                                 </div>
-                                                <div className="col-md-4 col-sm-4 col-xs-4">
+                                                <div className="col-md-3 col-sm-4 col-xs-4">
                                                     <button className="btn fa fa-trash-o fa-2x"
-                                                        // onClick={() => deleteModal(item)}
+                                                            onClick={deleteModal}
                                                     ></button>
                                                 </div>
 
@@ -215,29 +313,111 @@ function ProductInfo() {
                                             </tbody>
                                         </table>
                                     </div>
-                                    {/*<p>*/}
-                                    {/*    <button className="btn btn-round btn-danger" type="button"><i*/}
-                                    {/*        className="fa fa-shopping-cart"></i> Add to Cart*/}
-                                    {/*    </button>*/}
-                                    {/*</p>*/}
                                 </div>
-                                <div className="col-md-12">
-                                    <div className="pro-img-list">
-                                        {currentProduct?.photo?.map((item, index) =>
-                                            <a href="#">
-                                                <img src={'http://localhost:8090/api/photo/get/' + item.id}
-                                                     style={{width: "115px", height: "130px"}} alt=""/>
-                                            </a>
-                                        )}
-                                    </div>
-                                </div>
-
                             </div>
 
                         </div>
                     </section>
                 </div>
             </div>
+            <Modal isOpen={showDeleteModal} centered>
+                <ModalHeader>{currentProduct?.name + "ni o`chirishni istaysizmi"}</ModalHeader>
+                <ModalBody>
+                    <button className="btn btn-danger m-1" onClick={deleteProduct}>O`chirish</button>
+                    <button className="btn btn-success m-1" onClick={() => setShowDeleteModal(false)}>Bekor qilish
+                    </button>
+                </ModalBody>
+            </Modal>
+            <Modal isOpen={showEditModal} centered size="lg" style={{maxWidth: "1000px", width: "80%"}}>
+                <ModalHeader>{currentProduct?.name + "ni taxrirlash"}</ModalHeader>
+                <ModalBody>
+                    <form onSubmit={handleSubmit(editProduct)}>
+                        <div className="row">
+                            <div className="col-md-8">
+                                <div className="row">
+                                    <div className="form-group col-md-6">
+                                        <label>Mahsulot nomi</label>
+                                        <input className="form-control form-control-lg"
+                                               defaultValue={currentProduct?.name} {...register("name")} required/>
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label>Mahsulot narxi</label>
+                                        <input className="form-control form-control-lg" type="number"
+                                               defaultValue={currentProduct?.price} {...register("price")} required/>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="form-group col-md-6">
+                                        <label>Chegirma (%da)</label>
+                                        <input className="form-control form-control-lg" type="number"
+                                               defaultValue={currentProduct?.descountPercent} {...register("discountPercent")} />
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label>Kafolat muddati (oylarda)</label>
+                                        <input className="form-control form-control-lg" type="number"
+                                               defaultValue={currentProduct?.warrantyMonth} {...register("warrantyMonth")}
+                                               required/>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="form-group col-md-6">
+                                        <label>Brand</label>
+                                        <select {...register("brandId")} className="form-control form-control-lg">
+                                            {brands?.map((item, index) =>
+                                                <option value={item.id}>{item.name}</option>
+                                            )}
+                                        </select>
+                                    </div>
+                                    <div className="form-group col-md-6">
+                                        <label>Kategoriya</label>
+                                        <select {...register("categoryId")} className="form-control form-control-lg">
+                                            {categories?.map((item, index) =>
+                                                <option value={item.id}>{item.name}</option>
+                                            )}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="form-group col-md-4">
+                                        <label>Active</label>
+                                        <input type="checkbox" value="true" {...register("active")}/>
+                                    </div>
+                                    <div className="form-group col-md-4">
+                                        <label>Flash</label>
+                                        <input type="checkbox" value="true" {...register("flash")}/>
+                                    </div>
+                                    <div className="form-group col-md-4">
+                                        <label>Carousel</label>
+                                        <input type="checkbox" value="true" {...register("carousel")}/>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="form-group">
+                                    <label>Mahsulot haqida</label>
+                                    <textarea className="form-control form-control-lg"
+                                              defaultValue={currentProduct?.description} {...register("description")} />
+                                </div>
+                                <div className="form-group">
+                                    <label>Upload file</label><br/>
+                                    {<img src={'http://192.168.0.218:8090/api/photo/get/' + currentFile[0]}
+                                          width="300" height="220"/>}
+                                    <input className="mt-3" {...register("photoId", {required: true})} type="file"
+                                           multiple
+                                           accept='image/*' onChange={uploadFile}/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="row" style={{marginLeft: "10px"}}>
+                            <button className="btn btn-success mr-2" type="submit">Saqlash</button>
+                            <button className="btn btn-danger" onClick={hideEditModal}>Bekor qilish</button>
+                        </div>
+
+                    </form>
+                </ModalBody>
+            </Modal>
         </div>
     );
 }
